@@ -1,3 +1,4 @@
+import sys 
 from stats import charactercount
 
 def sorting(letters):
@@ -7,8 +8,13 @@ def wordcount(text):
   return len(text.split())
 
 def main():
- with open("books/frankenstein.txt") as f:
-  file_contents = f.read()
+ if len(sys.argv) < 2:
+        print("Usage: python main.py <path_to_book>")
+        sys.exit(1)
+ book_path = sys.argv[1]
+ 
+ with open(book_path) as f:
+      file_contents = f.read()
  count = wordcount(file_contents)
  totalcharacters = charactercount(file_contents)
 
@@ -17,11 +23,11 @@ def main():
  letters.sort(reverse=True, key=sorting)
   
  
- print(f"--- Begin report of books/frankenstein.txt ---")
+ print(f"--- Begin report of {book_path} ---")
  print(f"{count} words found in the document\n")
  
- for letter in letters:
-    print(f"The '{letter['char']}' character was found {letter['count']} times")
+ for char, count in sorted(totalcharacters.items()):
+    print(f"{char}: {count}")
  print("--- End report ---")
 main()
 
